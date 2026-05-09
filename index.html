@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#7FC8E8" />
+<meta name="description" content="Pompitas Delivery de Pañales · Haedo y alrededores · Pedí por WhatsApp" />
+<title>Pompitas · Delivery de Pañales</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   POMPITAS TIENDA · DESIGN SYSTEM
+   Optimizada para legibilidad (incluye adultos mayores):
+   - Fuentes ≥16px en cuerpo, ≥18px en botones
+   - Alto contraste, áreas táctiles ≥44px
+   - Sin info distrayente, jerarquía clara
+   ============================================================ */
+:root {
+  --c-celeste: #7FC8E8;
+  --c-celeste-soft: #B8DDF0;
+  --c-celeste-deep: #4FA8CF;
+  --c-dorado: #B5895A;
+  --c-dorado-soft: #D4B896;
+  --c-dorado-deep: #8E6638;
+  --c-lila: #C8B6E8;
+  --c-lila-soft: #E5DDF2;
+  --c-success: #2E7D32;
+  --c-wa: #25D366;
+  --c-wa-deep: #128C7E;
+
+  --bg-page: #FBF7F1;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F5EFE5;
+  --bg-input: #FFFFFF;
+
+  --text-strong: #1F1A14;
+  --text-base: #3A332B;
+  --text-soft: #6E6357;
+  --text-mute: #9F948A;
+  --text-on-celeste: #112430;
+
+  --border-soft: #EDE4D5;
+  --border-base: #E0D4C0;
+
+  --shadow-sm: 0 1px 2px rgba(110,80,40,0.06), 0 1px 3px rgba(110,80,40,0.04);
+  --shadow-md: 0 4px 12px rgba(110,80,40,0.08), 0 2px 4px rgba(110,80,40,0.04);
+  --shadow-lg: 0 12px 32px rgba(110,80,40,0.12), 0 4px 12px rgba(110,80,40,0.06);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --radius-pill: 999px;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --header-h: 72px;
+}
+
+[data-theme="dark"] {
+  --bg-page: #1A1814;
+  --bg-card: #25221C;
+  --bg-subtle: #1F1C17;
+  --bg-input: #2D2922;
+  --text-strong: #F5EFE5;
+  --text-base: #DACEC0;
+  --text-soft: #968B7E;
+  --text-mute: #6E665B;
+  --border-soft: #3A352C;
+  --border-base: #4A4338;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px; /* +1 sobre admin para legibilidad */
+  line-height: 1.55;
+  background: var(--bg-page);
+  color: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+}
+
+button { font-family: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.app-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  height: var(--header-h);
+  display: flex; align-items: center;
+}
+.header-inner {
+  max-width: 1100px; width: 100%;
+  margin: 0 auto;
+  padding: 0 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--text-strong);
+}
+.brand-logo {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--c-celeste-soft), var(--c-celeste));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--c-dorado-deep);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.brand-sub {
+  font-size: 12px;
+  color: var(--text-soft);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.header-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+.icon-btn {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-card);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: var(--text-base);
+  position: relative;
+  transition: all 0.2s var(--ease-soft);
+}
+.icon-btn:hover { background: var(--bg-subtle); }
+
+.cart-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  background: var(--c-dorado);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+  min-width: 20px; text-align: center;
+  border: 2px solid var(--bg-card);
+}
+
+/* ============================================================
+   BANNER CUENTA DNI
+   ============================================================ */
+.banner-dni {
+  background: linear-gradient(135deg, #00A859, #007A3D);
+  color: white;
+  padding: 14px 20px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+.banner-dni.active { display: block; }
+.banner-dni-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+.banner-dni img {
+  height: 56px;
+  width: auto;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.banner-dni-text { flex: 1; min-width: 0; }
+.banner-dni-titulo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.2;
+}
+.banner-dni-sub {
+  font-size: 14px;
+  opacity: 0.92;
+  margin-top: 2px;
+}
+@media (max-width: 540px) {
+  .banner-dni { padding: 12px 16px; }
+  .banner-dni-inner { flex-direction: column; text-align: center; gap: 8px; }
+  .banner-dni img { height: auto; max-height: 80px; max-width: 200px; }
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 18px 100px;
+}
+
+/* ============================================================
+   LANDING — 4 CATEGORÍAS
+   ============================================================ */
+.landing-hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.landing-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 40px);
+  color: var(--text-strong);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.landing-hero p {
+  font-size: 17px;
+  color: var(--text-soft);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (min-width: 760px) {
+  .cat-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+}
+
+.cat-tile {
+  background: var(--bg-card);
+  border: 2px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 26px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-soft);
+  font-family: var(--font-body);
+  color: var(--text-strong);
+  font-weight: 700;
+  font-size: 18px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.cat-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--c-celeste);
+}
+.cat-tile-icon { font-size: 48px; line-height: 1; margin-bottom: 4px; }
+.cat-tile-name { font-family: var(--font-display); font-size: 22px; }
+.cat-tile-sub { font-size: 13px; color: var(--text-soft); font-weight: 500; }
+.cat-tile-count {
+  position: absolute;
+  top: 12px; right: 14px;
+  font-size: 12px;
+  background: var(--c-celeste-soft);
+  color: var(--text-on-celeste);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+}
+
+/* CTA grande de WhatsApp directo */
+.wa-cta {
+  background: linear-gradient(135deg, var(--c-wa), var(--c-wa-deep));
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+  width: 100%;
+  margin-bottom: 20px;
+  transition: transform 0.2s var(--ease-soft);
+}
+.wa-cta:hover { transform: translateY(-1px); }
+.wa-cta-icon {
+  width: 56px; height: 56px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  flex-shrink: 0;
+}
+.wa-cta-text {
+  text-align: left;
+  flex: 1;
+}
+.wa-cta-titulo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.15;
+}
+.wa-cta-sub {
+  font-size: 14px;
+  opacity: 0.92;
+  margin-top: 2px;
+}
+.wa-cta-arrow { font-size: 24px; opacity: 0.85; }
+
+/* ============================================================
+   VISTA: CATÁLOGO POR CATEGORÍA
+   ============================================================ */
+.cat-header {
+  margin-bottom: 18px;
+}
+.btn-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--c-dorado-deep);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 6px;
+}
+.cat-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--text-strong);
+}
+.cat-subtitle {
+  color: var(--text-soft);
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.search-bar {
+  display: flex; gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 200px;
+  padding: 14px 18px 14px 46px;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--bg-input) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%236E6357" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>') 16px center no-repeat;
+  color: var(--text-base);
+}
+.search-input:focus {
+  outline: none; border-color: var(--c-celeste);
+  box-shadow: 0 0 0 3px rgba(127,200,232,0.18);
+}
+.filter-select {
+  padding: 12px 16px;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-pill);
+  background: var(--bg-input);
+  color: var(--text-base);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Brand chips */
+.brand-chips {
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  padding: 6px 0 16px;
+  margin: 0 -18px 0;
+  padding-left: 18px; padding-right: 18px;
+  scrollbar-width: none;
+}
+.brand-chips::-webkit-scrollbar { display: none; }
+.brand-chip {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-base);
+  background: var(--bg-card);
+  color: var(--text-base);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease-soft);
+}
+.brand-chip.active {
+  background: var(--c-celeste);
+  color: var(--text-on-celeste);
+  border-color: var(--c-celeste);
+}
+
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 600px) { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+@media (min-width: 900px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all 0.2s var(--ease-soft);
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.product-img-wrap {
+  aspect-ratio: 1;
+  background: var(--bg-subtle);
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.product-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.product-img-placeholder {
+  font-size: 56px;
+  opacity: 0.4;
+}
+
+.product-body {
+  padding: 12px 14px;
+  display: flex; flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+.product-tags {
+  display: flex; gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.tag-mini {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tag-brand { background: var(--c-dorado-soft); color: var(--c-dorado-deep); }
+.tag-size  { background: var(--c-celeste-soft); color: var(--text-on-celeste); }
+
+.product-name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-strong);
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  flex: 1;
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--c-dorado-deep);
+  line-height: 1.1;
+  margin-top: 4px;
+}
+
+.product-actions {
+  display: flex; gap: 6px;
+  margin-top: 10px;
+}
+.product-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-base);
+  background: var(--bg-card);
+  color: var(--text-base);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  transition: all 0.15s var(--ease-soft);
+}
+.product-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.product-btn-primary { background: var(--c-celeste); color: var(--text-on-celeste); border-color: transparent; }
+.product-btn-wa { background: var(--c-wa); color: white; border-color: transparent; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-soft);
+}
+.empty-state-icon { font-size: 56px; margin-bottom: 12px; opacity: 0.6; }
+
+/* ============================================================
+   CARRITO (drawer lateral)
+   ============================================================ */
+.cart-overlay {
+  position: fixed; inset: 0;
+  background: rgba(20,15,10,0.55);
+  z-index: 90;
+  display: none;
+  animation: fadeIn 0.2s;
+}
+.cart-overlay.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.cart-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 100%; max-width: 480px;
+  height: 100%;
+  background: var(--bg-card);
+  z-index: 95;
+  transform: translateX(100%);
+  transition: transform 0.3s var(--ease-soft);
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+.cart-drawer.active { transform: translateX(0); }
+
+.cart-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: center; gap: 10px;
+}
+.cart-header h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--text-strong);
+  flex: 1;
+}
+
+.cart-close {
+  width: 36px; height: 36px;
+  background: var(--bg-subtle);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.cart-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+.cart-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-soft);
+}
+
+.cart-item {
+  display: flex; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.cart-item-img {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  opacity: 0.7;
+}
+.cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.cart-item-body { flex: 1; min-width: 0; }
+.cart-item-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+.cart-item-meta {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+.cart-item-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 8px;
+}
+.cart-item-price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--c-dorado-deep);
+}
+
+.qty-control {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-pill);
+  padding: 2px;
+}
+.qty-btn {
+  width: 28px; height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-base);
+}
+.qty-btn:hover { background: var(--bg-card); }
+.qty-num {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.cart-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--bg-card);
+}
+.cart-total-row {
+  display: flex; justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.cart-total-row strong {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--c-dorado-deep);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 20px;
+  border-radius: var(--radius-pill);
+  border: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-soft);
+  background: var(--bg-card);
+  color: var(--text-base);
+  border: 1px solid var(--border-base);
+}
+.btn-primary { background: var(--c-celeste); color: var(--text-on-celeste); border-color: transparent; }
+.btn-wa { background: var(--c-wa); color: white; border-color: transparent; }
+.btn-block { width: 100%; }
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+/* ============================================================
+   CHECKOUT (modal con form)
+   ============================================================ */
+.checkout-overlay {
+  position: fixed; inset: 0;
+  background: rgba(20,15,10,0.65);
+  z-index: 100;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s;
+}
+.checkout-overlay.active { display: flex; }
+.checkout-modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  max-width: 520px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.3s var(--ease-pop);
+}
+@keyframes modalIn { from { transform: scale(0.92); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.checkout-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.checkout-header h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-strong);
+}
+.checkout-header p {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+.checkout-body { padding: 20px 24px; }
+.checkout-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--bg-subtle);
+  border-bottom-left-radius: var(--radius-xl);
+  border-bottom-right-radius: var(--radius-xl);
+}
+
+label.field { display: block; margin-bottom: 14px; }
+label.field > span {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-base);
+  margin-bottom: 6px;
+}
+.checkout-body input, .checkout-body textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  color: var(--text-base);
+  font-family: inherit;
+  font-size: 16px; /* 16px en iOS evita auto-zoom */
+}
+.checkout-body input:focus, .checkout-body textarea:focus {
+  outline: none; border-color: var(--c-celeste);
+  box-shadow: 0 0 0 3px rgba(127,200,232,0.18);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--bg-subtle);
+  margin-top: 60px;
+  padding: 36px 20px 100px;
+  border-top: 1px solid var(--border-soft);
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+}
+@media (min-width: 600px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 900px) {
+  .footer-inner { grid-template-columns: repeat(3, 1fr); }
+}
+.footer-col h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-strong);
+  margin-bottom: 8px;
+}
+.footer-col p, .footer-col a {
+  font-size: 14px;
+  color: var(--text-soft);
+  text-decoration: none;
+  line-height: 1.7;
+}
+.footer-col a:hover { color: var(--c-dorado-deep); }
+.footer-bottom {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 12px;
+  color: var(--text-mute);
+}
+
+/* ============================================================
+   FAB de WhatsApp directo
+   ============================================================ */
+.fab-wa {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: var(--c-wa);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  z-index: 40;
+  transition: transform 0.2s var(--ease-soft);
+}
+.fab-wa:hover { transform: scale(1.06); }
+.fab-wa::after {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--c-wa);
+  opacity: 0.6;
+  animation: pulseFab 2s infinite;
+}
+@keyframes pulseFab {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Loading */
+.loading-screen {
+  position: fixed; inset: 0;
+  background: var(--bg-page);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  flex-direction: column;
+  gap: 16px;
+}
+.loading-spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border-soft);
+  border-top-color: var(--c-celeste);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body data-theme="light">
+
+<!-- Loading inicial -->
+<div class="loading-screen" id="loading">
+  <div class="loading-spinner"></div>
+  <p style="font-family:var(--font-display); font-size:18px; color:var(--text-soft);">Cargando catálogo…</p>
+</div>
+
+<!-- Banner Cuenta DNI -->
+<div class="banner-dni" id="bannerDni">
+  <div class="banner-dni-inner">
+    <img id="bannerDniImg" src="" alt="" loading="lazy" onerror="this.style.display='none'">
+    <div class="banner-dni-text">
+      <div class="banner-dni-titulo" id="bannerDniTitulo">Promo Cuenta DNI</div>
+      <div class="banner-dni-sub" id="bannerDniSub">Reintegro pagando con Cuenta DNI</div>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="app-header">
+  <div class="header-inner">
+    <a class="brand" href="#" id="brandLink">
+      <span class="brand-logo" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4 C 9 4 5 9 5 16 C 5 23 9 28 16 28 C 23 28 27 23 27 16 C 27 9 23 4 16 4 Z" fill="#FBF7F1" stroke="#4FA8CF" stroke-width="2"/>
+          <circle cx="16" cy="14" r="3" fill="#C8B6E8"/>
+          <path d="M11 19 Q16 22 21 19" stroke="#B5895A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <div class="brand-name">Pompitas</div>
+        <div class="brand-sub">Delivery de pañales</div>
+      </span>
+    </a>
+    <div class="header-actions">
+      <button class="icon-btn" id="cartBtn" aria-label="Ver carrito" title="Carrito">
+        🛒
+        <span class="cart-badge hidden" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" title="Cambiar tema">🌗</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ============================================================ -->
+  <!-- VISTA: LANDING (4 categorías)                                 -->
+  <!-- ============================================================ -->
+  <section id="view-landing">
+    <div class="landing-hero">
+      <h1>Pañales y artículos<br>para bebés y adultos</h1>
+      <p>Elegí una categoría para ver el catálogo, o mandanos un mensaje y te ayudamos por WhatsApp.</p>
+    </div>
+
+    <button class="wa-cta" id="waCtaTop">
+      <span class="wa-cta-icon">💬</span>
+      <span class="wa-cta-text">
+        <span class="wa-cta-titulo">Pedir directo por WhatsApp</span>
+        <span class="wa-cta-sub">Hablá con nosotros y te asesoramos</span>
+      </span>
+      <span class="wa-cta-arrow">›</span>
+    </button>
+
+    <div class="cat-grid">
+      <button class="cat-tile" data-cat="bebes">
+        <span class="cat-tile-count" id="cnt-bebes">—</span>
+        <span class="cat-tile-icon">👶</span>
+        <span class="cat-tile-name">Bebés</span>
+        <span class="cat-tile-sub">Pampers, Huggies, Babysec…</span>
+      </button>
+      <button class="cat-tile" data-cat="adultos">
+        <span class="cat-tile-count" id="cnt-adultos">—</span>
+        <span class="cat-tile-icon">🧓</span>
+        <span class="cat-tile-name">Adultos</span>
+        <span class="cat-tile-sub">Plenitud, Indas, Tena…</span>
+      </button>
+      <button class="cat-tile" data-cat="higiene">
+        <span class="cat-tile-count" id="cnt-higiene">—</span>
+        <span class="cat-tile-icon">🧴</span>
+        <span class="cat-tile-name">Higiene</span>
+        <span class="cat-tile-sub">Toallitas, jabones, cremas…</span>
+      </button>
+      <button class="cat-tile" data-cat="todos">
+        <span class="cat-tile-count" id="cnt-todos">—</span>
+        <span class="cat-tile-icon">🛍️</span>
+        <span class="cat-tile-name">Ver todo</span>
+        <span class="cat-tile-sub">Catálogo completo</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VISTA: CATÁLOGO                                               -->
+  <!-- ============================================================ -->
+  <section id="view-catalog" class="hidden">
+    <div class="cat-header">
+      <button class="btn-back" id="backToLanding">‹ Volver</button>
+      <h2 class="cat-title" id="catTitle">Catálogo</h2>
+      <p class="cat-subtitle" id="catSubtitle">—</p>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar producto, marca o talle…">
+      <select class="filter-select" id="sortSelect">
+        <option value="brand">Por marca</option>
+        <option value="name">Por nombre</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+      </select>
+    </div>
+
+    <div class="brand-chips" id="brandChips"></div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+    <div class="empty-state hidden" id="emptyState">
+      <div class="empty-state-icon">🔍</div>
+      <h3 style="font-family:var(--font-display); font-size:22px; color:var(--text-strong); margin-bottom:8px">No encontramos productos</h3>
+      <p>Probá con otra búsqueda o cambiá los filtros.<br>O mandanos un WhatsApp y te asesoramos.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- DRAWER CARRITO                                                -->
+<!-- ============================================================ -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Carrito">
+  <div class="cart-header">
+    <h2>Tu pedido</h2>
+    <button class="cart-close" id="cartClose" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty">
+      <p style="font-size:48px; margin-bottom:8px">🛒</p>
+      <p style="font-weight:700; color:var(--text-strong); font-size:18px">Tu carrito está vacío</p>
+      <p>Agregá productos del catálogo para armar tu pedido.</p>
+    </div>
+  </div>
+  <div class="cart-footer hidden" id="cartFooter">
+    <div class="cart-total-row">
+      <span>Total:</span>
+      <strong id="cartTotal">$0</strong>
+    </div>
+    <button class="btn btn-wa btn-block" id="checkoutBtn">📲 Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<!-- ============================================================ -->
+<!-- MODAL CHECKOUT                                                -->
+<!-- ============================================================ -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-modal">
+    <div class="checkout-header">
+      <h2>Datos para el pedido</h2>
+      <p>Completá estos datos y mandamos tu pedido por WhatsApp</p>
+    </div>
+    <div class="checkout-body">
+      <label class="field">
+        <span>Tu nombre</span>
+        <input type="text" id="ckName" placeholder="Ej: María González" autocomplete="name">
+      </label>
+      <label class="field">
+        <span>Dirección de entrega</span>
+        <input type="text" id="ckAddress" placeholder="Calle, altura, piso/depto" autocomplete="street-address">
+      </label>
+      <label class="field">
+        <span>Horario tentativo de entrega</span>
+        <input type="text" id="ckSchedule" placeholder="Ej: hoy a la tarde, mañana 10-12hs">
+      </label>
+      <label class="field">
+        <span>Aclaraciones (opcional)</span>
+        <textarea id="ckNotes" placeholder="Forma de pago, comentarios…" rows="3"></textarea>
+      </label>
+    </div>
+    <div class="checkout-footer">
+      <div style="display:flex; gap:10px; justify-content:flex-end">
+        <button class="btn" id="ckCancelBtn">Cancelar</button>
+        <button class="btn btn-wa" id="ckSendBtn">📲 Mandar por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FAB de WhatsApp                                                -->
+<!-- ============================================================ -->
+<button class="fab-wa" id="fabWa" title="WhatsApp directo" aria-label="Pedir por WhatsApp">💬</button>
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                         -->
+<!-- ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h3>Pompitas Delivery de Pañales</h3>
+      <p id="ftZona">—</p>
+      <p id="ftZonasExt" style="margin-top:6px"></p>
+    </div>
+    <div class="footer-col">
+      <h3>Atención</h3>
+      <p id="ftHorario">—</p>
+      <p style="margin-top:6px">📲 <a id="ftWhatsApp" href="#">WhatsApp</a></p>
+    </div>
+    <div class="footer-col">
+      <h3>Pagos y envío</h3>
+      <p id="ftPagos">—</p>
+      <p id="ftEnvio" style="margin-top:6px"></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    Pompitas © 2026 · Delivery de pañales en Haedo
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+/* ============================================================
+   POMPITAS TIENDA · APP
+   ============================================================ */
+(function () {
+  'use strict';
+
+  const P = window.Pompitas;
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  const state = {
+    products: [],
+    config: {},
+    currentCategory: null,
+    currentBrand: null,
+    searchTerm: '',
+    sort: 'brand'
+  };
+
+  // ============================================================
+  // CONFIGURACIÓN: URL del backend
+  // ============================================================
+  // PEGAR AQUÍ la URL del Apps Script (la misma que en admin).
+  // Esta URL es pública (no requiere token) — la tienda solo lee productos
+  // publicables y config, sin acceso a costos.
+  const BACKEND_URL = (function () {
+    // Tomamos primero del localStorage (configurable sin redeploy en dev),
+    // si no, hardcoded acá.
+    const stored = localStorage.getItem('pompitas_backend_url');
+    if (stored) return stored;
+    return 'https://script.google.com/macros/s/AKfycbzKr-J5Kr6lHqNeB7-AFP7UOD4dDA-4pkGemm5vnYkk2AOnmLToPJ-UrWrjo8daEIU5IQ/exec';
+  })();
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  async function init() {
+    initTheme();
+    bindEvents();
+    P.cart.onChange(updateCartBadge);
+    updateCartBadge();
+
+    // 1. Intentar mostrar caché inmediatamente para UX rápida
+    const cached = loadCache();
+    if (cached) {
+      state.products = cached.products || [];
+      state.config = cached.config || {};
+      renderUI();
+      $('#loading').classList.add('hidden');
+    }
+
+    // 2. Fetch en paralelo de productos y config
+    try {
+      const [products, config] = await Promise.all([
+        P.api.fetchPublicProducts(BACKEND_URL),
+        P.api.fetchPublicConfig(BACKEND_URL)
+      ]);
+      state.products = products;
+      state.config = config;
+      saveCache();
+      renderUI();
+      $('#loading').classList.add('hidden');
+    } catch (e) {
+      console.error('Error cargando catálogo:', e);
+      if (!cached) {
+        // Sin caché y sin red → mostrar error
+        $('#loading').innerHTML = `
+          <p style="font-size:48px">😞</p>
+          <p style="font-family:var(--font-display); font-size:22px; color:var(--text-strong)">No pudimos cargar el catálogo</p>
+          <p style="color:var(--text-soft); text-align:center; padding:0 20px">Verificá tu conexión e intentá de nuevo.<br>Si el problema persiste, escribinos por WhatsApp.</p>
+          <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+        `;
+      } else {
+        // Hay caché pero falló refresh
+        P.utils.toast('Mostrando datos guardados (sin conexión)', 'warn');
+      }
+    }
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem(P.config.STORAGE_KEYS.THEME);
+    if (saved) document.body.dataset.theme = saved;
+    $('#themeToggle').onclick = () => {
+      const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = next;
+      localStorage.setItem(P.config.STORAGE_KEYS.THEME, next);
+    };
+  }
+
+  function loadCache() {
+    try {
+      const products = JSON.parse(localStorage.getItem(P.config.STORAGE_KEYS.LAST_PRODUCTS) || 'null');
+      const config = JSON.parse(localStorage.getItem(P.config.STORAGE_KEYS.LAST_CONFIG) || 'null');
+      if (products) return { products, config };
+    } catch (e) {}
+    return null;
+  }
+
+  function saveCache() {
+    try {
+      localStorage.setItem(P.config.STORAGE_KEYS.LAST_PRODUCTS, JSON.stringify(state.products));
+      localStorage.setItem(P.config.STORAGE_KEYS.LAST_CONFIG, JSON.stringify(state.config));
+    } catch (e) {}
+  }
+
+  // ============================================================
+  // RENDER GLOBAL
+  // ============================================================
+  function renderUI() {
+    renderBanner();
+    renderCounts();
+    renderFooter();
+    renderWaButtons();
+    if (state.currentCategory) renderCatalog();
+  }
+
+  function renderBanner() {
+    const c = state.config;
+    const banner = $('#bannerDni');
+    const isActive = c.banner_activo === 'TRUE' || c.banner_activo === true;
+    const today = P.utils.todayDow();
+    const days = String(c.banner_dias || '').toLowerCase().split(',').map(s => s.trim());
+    const todayActive = days.includes(today);
+
+    if (isActive && todayActive) {
+      $('#bannerDniTitulo').textContent = c.banner_titulo || 'Promo Cuenta DNI';
+      $('#bannerDniSub').textContent = c.banner_subtitulo || '';
+      const img = $('#bannerDniImg');
+      if (c.banner_imagen_url) {
+        img.src = c.banner_imagen_url;
+        img.style.display = '';
+      } else {
+        img.style.display = 'none';
+      }
+      banner.classList.add('active');
+      banner.onclick = c.banner_url_destino
+        ? () => window.open(c.banner_url_destino, '_blank')
+        : null;
+    } else {
+      banner.classList.remove('active');
+    }
+  }
+
+  function renderCounts() {
+    const ps = state.products;
+    $('#cnt-bebes').textContent = ps.filter(p => p.category === 'PAÑALES' && !esAdulto(p)).length;
+    $('#cnt-adultos').textContent = ps.filter(p => esAdulto(p)).length;
+    $('#cnt-higiene').textContent = ps.filter(p => p.category === 'HIGIENE').length;
+    $('#cnt-todos').textContent = ps.length;
+  }
+
+  function esAdulto(product) {
+    // Heurística: pañales para adultos = pañal + marca de incontinencia adulta
+    if (product.category !== 'PAÑALES') return false;
+    const adultBrands = ['Plenitud','Indas','Indasec','Tena','Hennia','EWE','Ambos'];
+    if (adultBrands.includes(product.brand)) return true;
+    // O nombres con "adulto" o "incontinencia"
+    const lower = (product.name || '').toLowerCase();
+    return /\b(adulto|incontinencia|ropa interior descartable)\b/.test(lower);
+  }
+
+  function renderFooter() {
+    const c = state.config;
+    $('#ftZona').textContent = c.zona_principal || 'Haedo y alrededores';
+    $('#ftZonasExt').textContent = c.zonas_extendidas || '';
+    $('#ftHorario').textContent = c.horario_atencion || 'Lunes a sábado de 9 a 20 hs';
+    $('#ftPagos').textContent = c.formas_pago || 'Efectivo, Transferencia, Mercado Pago, Cuenta DNI';
+    $('#ftEnvio').textContent = c.envio_descripcion || '';
+    $('#ftWhatsApp').href = P.utils.waLink(c.whatsapp_numero || '5491167874414', c.whatsapp_mensaje_directo || 'Hola Pompitas, quería hacer un pedido.');
+  }
+
+  function renderWaButtons() {
+    const c = state.config;
+    const link = P.utils.waLink(
+      c.whatsapp_numero || '5491167874414',
+      c.whatsapp_mensaje_directo || 'Hola Pompitas, quería hacer un pedido.'
+    );
+    $('#waCtaTop').onclick = () => window.open(link, '_blank');
+    $('#fabWa').onclick = () => window.open(link, '_blank');
+  }
+
+  // ============================================================
+  // VISTAS
+  // ============================================================
+  function showLanding() {
+    $('#view-landing').classList.remove('hidden');
+    $('#view-catalog').classList.add('hidden');
+    state.currentCategory = null;
+    state.currentBrand = null;
+    state.searchTerm = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showCatalog(category) {
+    state.currentCategory = category;
+    state.currentBrand = null;
+    state.searchTerm = '';
+    $('#view-landing').classList.add('hidden');
+    $('#view-catalog').classList.remove('hidden');
+    $('#searchInput').value = '';
+
+    const labels = {
+      bebes: { title: 'Pañales y productos para Bebés', sub: 'Pampers, Huggies, Babysec, Estrella y más' },
+      adultos: { title: 'Productos para Adultos', sub: 'Plenitud, Indas, Tena, Hennia y más' },
+      higiene: { title: 'Higiene y Cuidado', sub: 'Toallitas, shampoos, jabones, cremas y aceites' },
+      todos: { title: 'Catálogo completo', sub: 'Todos nuestros productos' }
+    };
+    const lbl = labels[category] || labels.todos;
+    $('#catTitle').textContent = lbl.title;
+    $('#catSubtitle').textContent = lbl.sub;
+
+    renderCatalog();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getFilteredProducts() {
+    let list = state.products.slice();
+
+    // Categoría
+    if (state.currentCategory === 'bebes') {
+      list = list.filter(p => p.category === 'PAÑALES' && !esAdulto(p));
+    } else if (state.currentCategory === 'adultos') {
+      list = list.filter(p => esAdulto(p));
+    } else if (state.currentCategory === 'higiene') {
+      list = list.filter(p => p.category === 'HIGIENE');
+    }
+    // todos → no filtra
+
+    // Marca
+    if (state.currentBrand) list = list.filter(p => p.brand === state.currentBrand);
+
+    // Búsqueda
+    if (state.searchTerm) {
+      const q = state.searchTerm.toLowerCase();
+      list = list.filter(p =>
+        (p.name || '').toLowerCase().includes(q) ||
+        (p.brand || '').toLowerCase().includes(q) ||
+        (p.size || '').toLowerCase().includes(q));
+    }
+
+    // Sort
+    if (state.sort === 'name') {
+      list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'es'));
+    } else if (state.sort === 'price-asc') {
+      list.sort((a, b) => (a.priceConsumer || 0) - (b.priceConsumer || 0));
+    } else if (state.sort === 'price-desc') {
+      list.sort((a, b) => (b.priceConsumer || 0) - (a.priceConsumer || 0));
+    } else {
+      // brand → ordenar por brand y luego por name
+      list.sort((a, b) => {
+        const bc = (a.brand || '').localeCompare(b.brand || '', 'es');
+        return bc !== 0 ? bc : (a.name || '').localeCompare(b.name || '', 'es');
+      });
+    }
+
+    return list;
+  }
+
+  function renderCatalog() {
+    const list = getFilteredProducts();
+    renderBrandChips();
+    renderProductGrid(list);
+  }
+
+  function renderBrandChips() {
+    // Marcas presentes en la categoría actual (sin filtro de marca)
+    let inCategory = state.products.slice();
+    if (state.currentCategory === 'bebes') inCategory = inCategory.filter(p => p.category === 'PAÑALES' && !esAdulto(p));
+    else if (state.currentCategory === 'adultos') inCategory = inCategory.filter(p => esAdulto(p));
+    else if (state.currentCategory === 'higiene') inCategory = inCategory.filter(p => p.category === 'HIGIENE');
+
+    const counts = {};
+    inCategory.forEach(p => counts[p.brand] = (counts[p.brand] || 0) + 1);
+    const brands = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+    let html = `<button class="brand-chip ${!state.currentBrand ? 'active' : ''}" data-brand="">Todas (${inCategory.length})</button>`;
+    brands.forEach(b => {
+      html += `<button class="brand-chip ${state.currentBrand === b ? 'active' : ''}" data-brand="${escapeAttr(b)}">${escapeHtml(b)} (${counts[b]})</button>`;
+    });
+    $('#brandChips').innerHTML = html;
+    $$('#brandChips .brand-chip').forEach(c => {
+      c.onclick = () => {
+        state.currentBrand = c.dataset.brand || null;
+        renderCatalog();
+      };
+    });
+  }
+
+  function renderProductGrid(list) {
+    const grid = $('#productGrid');
+    const empty = $('#emptyState');
+
+    if (list.length === 0) {
+      grid.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+
+    grid.innerHTML = list.map(p => {
+      const img = p.imageUrl
+        ? `<img src="${escapeAttr(p.imageUrl)}" alt="${escapeAttr(p.name)}" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=\\'product-img-placeholder\\'>📦</span>'">`
+        : `<span class="product-img-placeholder">📦</span>`;
+      const sizeTag = p.size ? `<span class="tag-mini tag-size">Talle ${escapeHtml(p.size)}</span>` : '';
+      return `
+        <article class="product-card" data-key="${escapeAttr(p.name + '|' + (p.size || ''))}">
+          <div class="product-img-wrap">${img}</div>
+          <div class="product-body">
+            <div class="product-tags">
+              <span class="tag-mini tag-brand">${escapeHtml(p.brand || '')}</span>
+              ${sizeTag}
+            </div>
+            <div class="product-name">${escapeHtml(p.name)}</div>
+            <div class="product-price">${P.format.money(p.priceConsumer)}</div>
+            <div class="product-actions">
+              <button class="product-btn product-btn-primary" data-add>+ Agregar</button>
+              <button class="product-btn product-btn-wa" data-wa title="Pedir este producto por WhatsApp">💬</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Bind buttons
+    $$('#productGrid .product-card').forEach(card => {
+      const key = card.dataset.key;
+      const product = state.products.find(p => (p.name + '|' + (p.size || '')) === key);
+      if (!product) return;
+      card.querySelector('[data-add]').onclick = () => {
+        P.cart.add(product);
+        P.utils.toast(product.name + (product.size ? ' [' + product.size + ']' : '') + ' agregado al carrito', 'success', 2000);
+      };
+      card.querySelector('[data-wa]').onclick = () => {
+        const msg = `Hola Pompitas, me interesa este producto:\n\n*${product.name}*${product.size ? ' (Talle ' + product.size + ')' : ''}\nPrecio: ${P.format.money(product.priceConsumer)}\n\n¿Tenés stock?`;
+        const link = P.utils.waLink(state.config.whatsapp_numero || '5491167874414', msg);
+        window.open(link, '_blank');
+      };
+    });
+  }
+
+  // ============================================================
+  // CARRITO
+  // ============================================================
+  function updateCartBadge() {
+    const count = P.cart.count();
+    const badge = $('#cartBadge');
+    if (count > 0) {
+      badge.textContent = count;
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+    renderCartBody();
+  }
+
+  function openCart() {
+    renderCartBody();
+    $('#cartDrawer').classList.add('active');
+    $('#cartOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCart() {
+    $('#cartDrawer').classList.remove('active');
+    $('#cartOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function renderCartBody() {
+    const items = P.cart.items();
+    const body = $('#cartBody');
+    const footer = $('#cartFooter');
+
+    if (items.length === 0) {
+      body.innerHTML = `
+        <div class="cart-empty">
+          <p style="font-size:48px; margin-bottom:8px">🛒</p>
+          <p style="font-weight:700; color:var(--text-strong); font-size:18px">Tu carrito está vacío</p>
+          <p>Agregá productos del catálogo para armar tu pedido.</p>
+        </div>
+      `;
+      footer.classList.add('hidden');
+      return;
+    }
+
+    body.innerHTML = items.map((item, idx) => {
+      const img = item.imageUrl
+        ? `<img src="${escapeAttr(item.imageUrl)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('📦'))">`
+        : `📦`;
+      return `
+        <div class="cart-item" data-idx="${idx}">
+          <div class="cart-item-img">${img}</div>
+          <div class="cart-item-body">
+            <div class="cart-item-name">${escapeHtml(item.name)}${item.size ? ' <span class="cart-item-meta">(Talle ' + escapeHtml(item.size) + ')</span>' : ''}</div>
+            <div class="cart-item-meta">${escapeHtml(item.brand || '')}</div>
+            <div class="cart-item-row">
+              <div class="cart-item-price">${P.format.money(item.priceConsumer * item.qty)}</div>
+              <div class="qty-control">
+                <button class="qty-btn" data-action="dec">−</button>
+                <span class="qty-num">${item.qty}</span>
+                <button class="qty-btn" data-action="inc">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    $('#cartTotal').textContent = P.format.money(P.cart.total());
+    footer.classList.remove('hidden');
+
+    // Bind qty controls
+    $$('.cart-item').forEach(el => {
+      const idx = parseInt(el.dataset.idx);
+      const item = items[idx];
+      el.querySelector('[data-action="inc"]').onclick = () => P.cart.setQty(item, item.qty + 1);
+      el.querySelector('[data-action="dec"]').onclick = () => P.cart.setQty(item, item.qty - 1);
+    });
+  }
+
+  // ============================================================
+  // CHECKOUT
+  // ============================================================
+  function openCheckout() {
+    if (P.cart.items().length === 0) {
+      P.utils.toast('Tu carrito está vacío', 'warn');
+      return;
+    }
+    $('#checkoutOverlay').classList.add('active');
+    setTimeout(() => $('#ckName').focus(), 200);
+  }
+
+  function closeCheckout() {
+    $('#checkoutOverlay').classList.remove('active');
+  }
+
+  function sendOrder() {
+    const name = $('#ckName').value.trim();
+    const address = $('#ckAddress').value.trim();
+    const schedule = $('#ckSchedule').value.trim();
+    const notes = $('#ckNotes').value.trim();
+
+    if (!name || !address) {
+      P.utils.toast('Completá nombre y dirección', 'warn');
+      return;
+    }
+
+    const items = P.cart.items();
+    if (items.length === 0) return;
+
+    // Construir mensaje
+    let msg = '🛒 *Nuevo pedido Pompitas*\n\n';
+    msg += `👤 *Cliente:* ${name}\n`;
+    msg += `📍 *Dirección:* ${address}\n`;
+    if (schedule) msg += `🕐 *Horario:* ${schedule}\n`;
+    if (notes) msg += `📝 *Notas:* ${notes}\n`;
+    msg += `\n*Productos:*\n`;
+
+    let total = 0;
+    items.forEach((item, i) => {
+      const sub = item.priceConsumer * item.qty;
+      total += sub;
+      msg += `\n${i + 1}. *${item.name}*${item.size ? ' (Talle ' + item.size + ')' : ''}`;
+      msg += `\n   ${item.qty} x ${P.format.money(item.priceConsumer)} = *${P.format.money(sub)}*`;
+    });
+
+    msg += `\n\n━━━━━━━━━━━━━━━`;
+    msg += `\n💰 *TOTAL: ${P.format.money(total)}*`;
+
+    const link = P.utils.waLink(state.config.whatsapp_numero || '5491167874414', msg);
+    window.open(link, '_blank');
+
+    closeCheckout();
+    closeCart();
+    P.utils.toast('Mandando pedido por WhatsApp…', 'success', 2500);
+
+    // Opcional: vaciar carrito tras enviar (descomentar si querés)
+    // setTimeout(() => P.cart.clear(), 1500);
+  }
+
+  // ============================================================
+  // EVENTOS
+  // ============================================================
+  function bindEvents() {
+    // Landing
+    $('#brandLink').onclick = (e) => { e.preventDefault(); showLanding(); };
+    $$('.cat-tile').forEach(t => t.onclick = () => showCatalog(t.dataset.cat));
+    $('#backToLanding').onclick = showLanding;
+
+    // Catálogo
+    $('#searchInput').oninput = P.utils.debounce(e => {
+      state.searchTerm = e.target.value;
+      renderProductGrid(getFilteredProducts());
+    }, 200);
+    $('#sortSelect').onchange = e => {
+      state.sort = e.target.value;
+      renderProductGrid(getFilteredProducts());
+    };
+
+    // Carrito
+    $('#cartBtn').onclick = openCart;
+    $('#cartClose').onclick = closeCart;
+    $('#cartOverlay').onclick = closeCart;
+    $('#checkoutBtn').onclick = openCheckout;
+
+    // Checkout
+    $('#ckCancelBtn').onclick = closeCheckout;
+    $('#ckSendBtn').onclick = sendOrder;
+    $('#checkoutOverlay').onclick = e => {
+      if (e.target === $('#checkoutOverlay')) closeCheckout();
+    };
+
+    // Navegación con back button del browser
+    window.addEventListener('popstate', () => {
+      if (state.currentCategory) showLanding();
+    });
+  }
+
+  // ============================================================
+  // UTILS
+  // ============================================================
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  // Start
+  init();
+})();
+</script>
+
+</body>
+</html>
