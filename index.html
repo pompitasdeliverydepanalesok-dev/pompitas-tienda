@@ -172,47 +172,151 @@ img { max-width: 100%; height: auto; display: block; }
 /* ============================================================
    BANNER CUENTA DNI
    ============================================================ */
+/* ============================================================
+   BANNER DNI · rediseño grande y prominente
+   ============================================================ */
 .banner-dni {
-  background: linear-gradient(135deg, #00A859, #007A3D);
+  background: linear-gradient(135deg, #00A859 0%, #008844 50%, #006B36 100%);
   color: white;
-  padding: 14px 20px;
-  text-align: center;
+  padding: 22px 24px;
   cursor: pointer;
   display: none;
   position: relative;
   overflow: hidden;
+  border-bottom: 3px solid #FFD700;
 }
 .banner-dni.active { display: block; }
+.banner-dni::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
 .banner-dni-inner {
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 16px;
-  text-align: left;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
 }
 .banner-dni img {
-  height: 56px;
+  height: 96px;
   width: auto;
-  border-radius: var(--radius-sm);
+  max-width: 140px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  background: white;
+  padding: 6px;
+  object-fit: contain;
+}
+.banner-dni-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.banner-dni-highlight {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: #FFD700;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
   flex-shrink: 0;
 }
-.banner-dni-text { flex: 1; min-width: 0; }
+.banner-dni-highlight small {
+  font-size: 28px;
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: top;
+  line-height: 1;
+  margin-top: 8px;
+}
+.banner-dni-divider {
+  width: 2px;
+  height: 70px;
+  background: rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+.banner-dni-text {
+  flex: 1;
+  min-width: 0;
+}
 .banner-dni-titulo {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 19px;
-  line-height: 1.2;
+  font-size: 26px;
+  line-height: 1.15;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.banner-dni-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+.banner-dni-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.96;
+}
+.banner-dni-detail-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  font-size: 11px;
 }
 .banner-dni-sub {
-  font-size: 14px;
-  opacity: 0.92;
-  margin-top: 2px;
+  font-size: 15px;
+  opacity: 0.95;
+  margin-top: 4px;
 }
-@media (max-width: 540px) {
-  .banner-dni { padding: 12px 16px; }
-  .banner-dni-inner { flex-direction: column; text-align: center; gap: 8px; }
-  .banner-dni img { height: auto; max-height: 80px; max-width: 200px; }
+
+/* Mobile (celulares) */
+@media (max-width: 720px) {
+  .banner-dni { padding: 16px 16px; }
+  .banner-dni-inner {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+  .banner-dni img {
+    height: 80px;
+    max-width: 120px;
+  }
+  .banner-dni-content {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .banner-dni-highlight {
+    font-size: 52px;
+  }
+  .banner-dni-highlight small {
+    font-size: 22px;
+  }
+  .banner-dni-divider { display: none; }
+  .banner-dni-titulo { font-size: 22px; }
+  .banner-dni-details {
+    justify-content: center;
+  }
 }
 
 /* ============================================================
@@ -884,9 +988,16 @@ label.field > span {
 <div class="banner-dni" id="bannerDni">
   <div class="banner-dni-inner">
     <img id="bannerDniImg" src="" alt="" loading="lazy" onerror="this.style.display='none'">
-    <div class="banner-dni-text">
-      <div class="banner-dni-titulo" id="bannerDniTitulo">Promo Cuenta DNI</div>
-      <div class="banner-dni-sub" id="bannerDniSub">Reintegro pagando con Cuenta DNI</div>
+    <div class="banner-dni-content">
+      <div class="banner-dni-highlight" id="bannerDniHighlight" style="display:none">
+        <span id="bannerDniHighlightNum">20</span><small>%</small>
+      </div>
+      <div class="banner-dni-divider" id="bannerDniDivider" style="display:none"></div>
+      <div class="banner-dni-text">
+        <div class="banner-dni-titulo" id="bannerDniTitulo">Promo Cuenta DNI</div>
+        <div class="banner-dni-sub" id="bannerDniSub"></div>
+        <div class="banner-dni-details" id="bannerDniDetails"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1122,7 +1233,7 @@ label.field > span {
     // si no, hardcoded acá.
     const stored = localStorage.getItem('pompitas_backend_url');
     if (stored) return stored;
-    return 'https://script.google.com/macros/s/AKfycbzKr-J5Kr6lHqNeB7-AFP7UOD4dDA-4pkGemm5vnYkk2AOnmLToPJ-UrWrjo8daEIU5IQ/exec';
+    return 'PEGAR_AQUI_URL_DEL_APPS_SCRIPT_TERMINADA_EN_/exec';
   })();
 
   // ============================================================
@@ -1218,7 +1329,55 @@ label.field > span {
 
     if (isActive && todayActive) {
       $('#bannerDniTitulo').textContent = c.banner_titulo || 'Promo Cuenta DNI';
-      $('#bannerDniSub').textContent = c.banner_subtitulo || '';
+
+      // Parsear el subtítulo: buscar porcentaje y dividir el resto en detalles
+      const subtitulo = c.banner_subtitulo || '';
+      // Buscar número seguido de %
+      const pctMatch = subtitulo.match(/(\d+(?:[.,]\d+)?)\s*%/);
+
+      if (pctMatch) {
+        // Hay porcentaje: mostrarlo destacado
+        $('#bannerDniHighlightNum').textContent = pctMatch[1];
+        $('#bannerDniHighlight').style.display = '';
+        $('#bannerDniDivider').style.display = '';
+
+        // Quitar el porcentaje del subtítulo y procesar el resto
+        const rest = subtitulo.replace(pctMatch[0], '').replace(/^\s*(?:de|off|de descuento|de reintegro)?\s*[·|,\-]?\s*/i, '').trim();
+        // Dividir por separadores y crear chips
+        const parts = rest.split(/\s*[·|]\s*/).filter(p => p.trim().length > 0);
+
+        // Si hay "de reintegro" o algo que aclare el %, ponerlo como subtítulo principal
+        let mainSub = 'de reintegro';
+        const reintegroIdx = parts.findIndex(p => /reintegro|descuento|off|ahorro/i.test(p));
+        if (reintegroIdx >= 0) {
+          mainSub = parts[reintegroIdx].trim();
+          parts.splice(reintegroIdx, 1);
+        }
+        $('#bannerDniSub').textContent = mainSub;
+        $('#bannerDniSub').style.display = '';
+
+        // Renderizar el resto como detalles con íconos
+        let detailsHtml = '';
+        parts.forEach(p => {
+          const text = p.trim();
+          if (!text) return;
+          // Asignar ícono según contenido
+          let icon = '•';
+          if (/tope|máx|max|hasta|límite|limite/i.test(text)) icon = '$';
+          else if (/lun|mar|mie|mié|jue|vie|sab|sáb|dom|días|dias|semana/i.test(text)) icon = '📅';
+          else if (/cuenta dni|dni/i.test(text)) icon = '💳';
+          detailsHtml += `<div class="banner-dni-detail"><span class="banner-dni-detail-icon">${icon}</span>${escapeHtml(text)}</div>`;
+        });
+        $('#bannerDniDetails').innerHTML = detailsHtml;
+      } else {
+        // Sin porcentaje: modo simple (texto plano)
+        $('#bannerDniHighlight').style.display = 'none';
+        $('#bannerDniDivider').style.display = 'none';
+        $('#bannerDniSub').textContent = subtitulo;
+        $('#bannerDniSub').style.display = subtitulo ? '' : 'none';
+        $('#bannerDniDetails').innerHTML = '';
+      }
+
       const img = $('#bannerDniImg');
       if (c.banner_imagen_url) {
         img.src = c.banner_imagen_url;
