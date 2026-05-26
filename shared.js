@@ -207,7 +207,9 @@
   }
 
   function roundUpTo10(n) {
-    return Math.ceil(n / 10) * 10;
+    // Redondea hacia arriba al múltiplo de 500 más cercano.
+    // Resultado: todos los precios terminan en 000 o en 500.
+    return Math.ceil(n / 500) * 500;
   }
 
   /* ============================================================
