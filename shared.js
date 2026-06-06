@@ -25,6 +25,7 @@
     CART: 'pompitas_cart_v2',
     LAST_PRODUCTS: 'pompitas_last_products_v2',
     LAST_CONFIG: 'pompitas_last_config_v2',
+    LAST_VERSION: 'pompitas_last_version_v2',
     MARKUPS: 'pompitas_markups',
     LAST_SYNC: 'pompitas_last_sync'
   };
@@ -560,8 +561,9 @@
     },
 
     /** Lee productos públicos (GET sin token). Para tienda.
+     *  Devuelve { products: [...], version: '5' } para que el caller compare versiones.
      *  Usa modo 'no-cors' alternativo si el fetch directo falla por CORS:
-     *  envía como POST con text/plain (que es un simple request, sin preflight).
+     *  envía como POST con text/plain (simple request, sin preflight).
      */
     async fetchPublicProducts(url) {
       if (!url) throw new Error('URL no configurada');
@@ -575,7 +577,7 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'Error desconocido');
-        return data.products || [];
+        return { products: data.products || [], version: String(data.version || '1') };
       } catch (e) {
         // Intento 2: POST con text/plain (simple request, sin preflight CORS)
         const res = await fetch(url, {
@@ -587,7 +589,7 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'Error desconocido');
-        return data.products || [];
+        return { products: data.products || [], version: String(data.version || '1') };
       }
     },
 
@@ -604,7 +606,7 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'Error desconocido');
-        return data.config || {};
+        return { config: data.config || {}, version: String(data.version || '1') };
       } catch (e) {
         // Intento 2: POST con text/plain
         const res = await fetch(url, {
@@ -616,8 +618,30 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'Error desconocido');
-        return data.config || {};
+        return { config: data.config || {}, version: String(data.version || '1') };
       }
+    },
+
+    /** Chequeo rápido de versión solamente. No baja productos. */
+    async fetchVersion(url) {
+      if (!url) return null;
+      try {
+        const sep = url.includes('?') ? '&' : '?';
+        const res = await fetch(url + sep + 'mode=version', {
+          method: 'GET',
+          redirect: 'follow'
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.ok ? String(data.version || '1') : null;
+      } catch (e) {
+        return null;
+      }
+    },
+
+    /** Acción admin: forzar refresh de catálogo para todos los clientes. */
+    async bumpVersion(url, token) {
+      return this.call(url, 'BUMP_VERSION', { token });
     },
 
     // Wrappers admin

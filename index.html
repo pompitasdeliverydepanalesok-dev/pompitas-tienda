@@ -1254,17 +1254,28 @@ label.field > span {
       $('#loading').classList.add('hidden');
     }
 
-    // 2. Fetch en paralelo de productos y config
+    // 2. Fetch en paralelo de productos y config (con versionado)
     try {
-      const [products, config] = await Promise.all([
+      const [productsRes, configRes] = await Promise.all([
         P.api.fetchPublicProducts(BACKEND_URL),
         P.api.fetchPublicConfig(BACKEND_URL)
       ]);
+      // Las funciones devuelven { products, version } y { config, version }
+      const products = productsRes.products || [];
+      const config = configRes.config || {};
+      const serverVersion = productsRes.version || configRes.version || '1';
+      const cachedVersion = cached ? cached.version : null;
+
       state.products = products;
       state.config = config;
-      saveCache();
+      saveCache(serverVersion);
       renderUI();
       $('#loading').classList.add('hidden');
+
+      // Si la versión cambió respecto del caché, log para debugging
+      if (cachedVersion && cachedVersion !== serverVersion) {
+        console.log('Catálogo actualizado: v' + cachedVersion + ' → v' + serverVersion);
+      }
     } catch (e) {
       console.error('Error cargando catálogo:', e);
       if (!cached) {
@@ -1296,15 +1307,19 @@ label.field > span {
     try {
       const products = JSON.parse(localStorage.getItem(P.config.STORAGE_KEYS.LAST_PRODUCTS) || 'null');
       const config = JSON.parse(localStorage.getItem(P.config.STORAGE_KEYS.LAST_CONFIG) || 'null');
-      if (products) return { products, config };
+      const version = localStorage.getItem(P.config.STORAGE_KEYS.LAST_VERSION) || null;
+      if (products) return { products, config, version };
     } catch (e) {}
     return null;
   }
 
-  function saveCache() {
+  function saveCache(version) {
     try {
       localStorage.setItem(P.config.STORAGE_KEYS.LAST_PRODUCTS, JSON.stringify(state.products));
       localStorage.setItem(P.config.STORAGE_KEYS.LAST_CONFIG, JSON.stringify(state.config));
+      if (version) {
+        localStorage.setItem(P.config.STORAGE_KEYS.LAST_VERSION, String(version));
+      }
     } catch (e) {}
   }
 
