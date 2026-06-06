@@ -350,53 +350,138 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0 auto;
 }
 
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
+/* ============================================================
+   SEARCH HERO · buscador prominente con estética suave
+   ============================================================ */
+.search-hero {
+  margin: 24px 0 18px;
 }
+.search-hero-wrap {
+  position: relative;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 4px 4px 4px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s var(--ease-soft);
+}
+.search-hero-wrap:focus-within {
+  border-color: var(--c-celeste);
+  box-shadow: 0 0 0 4px rgba(127,200,232,0.16), var(--shadow-md);
+}
+.search-hero-icon {
+  font-size: 20px;
+  color: var(--text-soft);
+  user-select: none;
+  pointer-events: none;
+}
+.search-hero-input {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 6px 16px 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--text-base);
+  outline: none;
+}
+.search-hero-input::placeholder {
+  color: var(--text-soft);
+  opacity: 0.7;
+}
+.search-hero-clear {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.search-hero-clear:hover {
+  background: var(--border-soft);
+  color: var(--text-strong);
+}
+.search-hero-clear.hidden { display: none; }
+
 @media (min-width: 760px) {
-  .cat-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .search-hero { margin: 28px 0 22px; }
+  .search-hero-input { font-size: 18px; padding: 18px 6px 18px 0; }
 }
 
-.cat-tile {
-  background: var(--bg-card);
-  border: 2px solid var(--border-soft);
-  border-radius: var(--radius-lg);
-  padding: 26px 18px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s var(--ease-soft);
-  font-family: var(--font-body);
-  color: var(--text-strong);
-  font-weight: 700;
-  font-size: 18px;
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  position: relative;
-  overflow: hidden;
+/* ============================================================
+   BRAND SECTION · filtros por marca con etiqueta
+   ============================================================ */
+.brand-section {
+  margin-bottom: 22px;
 }
-.cat-tile:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.brand-section-label {
+  font-size: 13px;
+  color: var(--text-soft);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Brand chips */
+.brand-chips {
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 6px;
+  margin: 0 -18px 0;
+  padding-left: 18px; padding-right: 18px;
+  scrollbar-width: none;
+}
+.brand-chips::-webkit-scrollbar { display: none; }
+.brand-chip {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-soft);
+  background: var(--bg-card);
+  color: var(--text-base);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-chip:hover {
   border-color: var(--c-celeste);
 }
-.cat-tile-icon { font-size: 48px; line-height: 1; margin-bottom: 4px; }
-.cat-tile-name { font-family: var(--font-display); font-size: 22px; }
-.cat-tile-sub { font-size: 13px; color: var(--text-soft); font-weight: 500; }
-.cat-tile-count {
-  position: absolute;
-  top: 12px; right: 14px;
-  font-size: 12px;
-  background: var(--c-celeste-soft);
-  color: var(--text-on-celeste);
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
+.brand-chip-count {
+  display: inline-block;
+  background: var(--bg-input);
+  color: var(--text-soft);
+  font-size: 11px;
   font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  min-width: 26px;
+  text-align: center;
+}
+.brand-chip.active {
+  background: var(--c-celeste);
+  color: var(--text-on-celeste);
+  border-color: var(--c-celeste);
+}
+.brand-chip.active .brand-chip-count {
+  background: rgba(255,255,255,0.55);
+  color: var(--text-on-celeste);
 }
 
 /* CTA grande de WhatsApp directo */
@@ -446,92 +531,11 @@ img { max-width: 100%; height: auto; display: block; }
 /* ============================================================
    VISTA: CATÁLOGO POR CATEGORÍA
    ============================================================ */
-.cat-header {
-  margin-bottom: 18px;
-}
-.btn-back {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: transparent;
-  border: none;
-  color: var(--c-dorado-deep);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  padding: 8px 0;
-  margin-bottom: 6px;
-}
-.cat-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 30px;
-  color: var(--text-strong);
-}
-.cat-subtitle {
-  color: var(--text-soft);
-  font-size: 15px;
-  margin-top: 4px;
-}
+/* (estilos de cabecera de catálogo eliminados, ahora se usa landing-hero único) */
 
-.search-bar {
-  display: flex; gap: 10px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.search-input {
-  flex: 1; min-width: 200px;
-  padding: 14px 18px 14px 46px;
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-pill);
-  font-size: 16px;
-  font-family: inherit;
-  background: var(--bg-input) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%236E6357" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>') 16px center no-repeat;
-  color: var(--text-base);
-}
-.search-input:focus {
-  outline: none; border-color: var(--c-celeste);
-  box-shadow: 0 0 0 3px rgba(127,200,232,0.18);
-}
-.filter-select {
-  padding: 12px 16px;
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-pill);
-  background: var(--bg-input);
-  color: var(--text-base);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
+/* (search-bar viejo eliminado, ahora se usa .search-hero) */
 
-/* Brand chips */
-.brand-chips {
-  display: flex; gap: 8px;
-  overflow-x: auto;
-  padding: 6px 0 16px;
-  margin: 0 -18px 0;
-  padding-left: 18px; padding-right: 18px;
-  scrollbar-width: none;
-}
-.brand-chips::-webkit-scrollbar { display: none; }
-.brand-chip {
-  flex-shrink: 0;
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-base);
-  background: var(--bg-card);
-  color: var(--text-base);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-  transition: all 0.2s var(--ease-soft);
-}
-.brand-chip.active {
-  background: var(--c-celeste);
-  color: var(--text-on-celeste);
-  border-color: var(--c-celeste);
-}
+/* Brand chips duplicado eliminado, ahora vive en .brand-section */
 
 /* Product grid */
 .product-grid {
@@ -1031,14 +1035,29 @@ label.field > span {
 <main class="container">
 
   <!-- ============================================================ -->
-  <!-- VISTA: LANDING (4 categorías)                                 -->
+  <!-- VISTA: TIENDA UNIFICADA (todo en una sola pantalla)            -->
   <!-- ============================================================ -->
-  <section id="view-landing">
+  <section id="view-shop">
     <div class="landing-hero">
       <h1>Pañales y artículos<br>para bebés y adultos</h1>
-      <p>Elegí una categoría para ver el catálogo, o mandanos un mensaje y te ayudamos por WhatsApp.</p>
+      <p>Encontrá lo que necesitás o consultanos por WhatsApp.</p>
     </div>
 
+    <!-- Buscador prominente -->
+    <div class="search-hero">
+      <div class="search-hero-wrap">
+        <span class="search-hero-icon">🔍</span>
+        <input
+          type="text"
+          class="search-hero-input"
+          id="searchInput"
+          placeholder="Buscá pañales, toallitas, marca o talle…"
+          autocomplete="off">
+        <button class="search-hero-clear hidden" id="searchClear" aria-label="Limpiar búsqueda">×</button>
+      </div>
+    </div>
+
+    <!-- CTA WhatsApp -->
     <button class="wa-cta" id="waCtaTop">
       <span class="wa-cta-icon">💬</span>
       <span class="wa-cta-text">
@@ -1048,62 +1067,20 @@ label.field > span {
       <span class="wa-cta-arrow">›</span>
     </button>
 
-    <div class="cat-grid">
-      <button class="cat-tile" data-cat="bebes">
-        <span class="cat-tile-count" id="cnt-bebes">—</span>
-        <span class="cat-tile-icon">👶</span>
-        <span class="cat-tile-name">Bebés</span>
-        <span class="cat-tile-sub">Pampers, Huggies, Babysec…</span>
-      </button>
-      <button class="cat-tile" data-cat="adultos">
-        <span class="cat-tile-count" id="cnt-adultos">—</span>
-        <span class="cat-tile-icon">🧓</span>
-        <span class="cat-tile-name">Adultos</span>
-        <span class="cat-tile-sub">Plenitud, Indas, Tena…</span>
-      </button>
-      <button class="cat-tile" data-cat="higiene">
-        <span class="cat-tile-count" id="cnt-higiene">—</span>
-        <span class="cat-tile-icon">🧴</span>
-        <span class="cat-tile-name">Higiene</span>
-        <span class="cat-tile-sub">Toallitas, jabones, cremas…</span>
-      </button>
-      <button class="cat-tile" data-cat="todos">
-        <span class="cat-tile-count" id="cnt-todos">—</span>
-        <span class="cat-tile-icon">🛍️</span>
-        <span class="cat-tile-name">Ver todo</span>
-        <span class="cat-tile-sub">Catálogo completo</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- ============================================================ -->
-  <!-- VISTA: CATÁLOGO                                               -->
-  <!-- ============================================================ -->
-  <section id="view-catalog" class="hidden">
-    <div class="cat-header">
-      <button class="btn-back" id="backToLanding">‹ Volver</button>
-      <h2 class="cat-title" id="catTitle">Catálogo</h2>
-      <p class="cat-subtitle" id="catSubtitle">—</p>
+    <!-- Chips de marca -->
+    <div class="brand-section">
+      <div class="brand-section-label">Filtrar por marca</div>
+      <div class="brand-chips" id="brandChips"></div>
     </div>
 
-    <div class="search-bar">
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar producto, marca o talle…">
-      <select class="filter-select" id="sortSelect">
-        <option value="brand">Por marca</option>
-        <option value="name">Por nombre</option>
-        <option value="price-asc">Precio: menor a mayor</option>
-        <option value="price-desc">Precio: mayor a menor</option>
-      </select>
-    </div>
-
-    <div class="brand-chips" id="brandChips"></div>
-
+    <!-- Grilla de productos -->
     <div class="product-grid" id="productGrid"></div>
 
+    <!-- Estado vacío -->
     <div class="empty-state hidden" id="emptyState">
       <div class="empty-state-icon">🔍</div>
       <h3 style="font-family:var(--font-display); font-size:22px; color:var(--text-strong); margin-bottom:8px">No encontramos productos</h3>
-      <p>Probá con otra búsqueda o cambiá los filtros.<br>O mandanos un WhatsApp y te asesoramos.</p>
+      <p>Probá con otra búsqueda o cambiá la marca seleccionada.<br>O mandanos un WhatsApp y te asesoramos.</p>
     </div>
   </section>
 
@@ -1216,10 +1193,8 @@ label.field > span {
   const state = {
     products: [],
     config: {},
-    currentCategory: null,
     currentBrand: null,
-    searchTerm: '',
-    sort: 'brand'
+    searchTerm: ''
   };
 
   // ============================================================
@@ -1328,10 +1303,9 @@ label.field > span {
   // ============================================================
   function renderUI() {
     renderBanner();
-    renderCounts();
     renderFooter();
     renderWaButtons();
-    if (state.currentCategory) renderCatalog();
+    renderShop(); // renderiza siempre la tienda completa (chips + grilla)
   }
 
   function renderBanner() {
@@ -1409,22 +1383,64 @@ label.field > span {
     }
   }
 
-  function renderCounts() {
-    const ps = state.products;
-    $('#cnt-bebes').textContent = ps.filter(p => p.category === 'PAÑALES' && !esAdulto(p)).length;
-    $('#cnt-adultos').textContent = ps.filter(p => esAdulto(p)).length;
-    $('#cnt-higiene').textContent = ps.filter(p => p.category === 'HIGIENE').length;
-    $('#cnt-todos').textContent = ps.length;
+  /**
+   * Renderiza toda la tienda: chips de marca + grilla.
+   * Sin categorías visibles para el cliente. Solo filtro por marca + búsqueda fuzzy.
+   */
+  function renderShop() {
+    renderBrandChips();
+    renderProductGrid(getFilteredProducts());
   }
 
-  function esAdulto(product) {
-    // Heurística: pañales para adultos = pañal + marca de incontinencia adulta
-    if (product.category !== 'PAÑALES') return false;
-    const adultBrands = ['Plenitud','Indas','Indasec','Tena','Hennia','EWE','Ambos'];
-    if (adultBrands.includes(product.brand)) return true;
-    // O nombres con "adulto" o "incontinencia"
-    const lower = (product.name || '').toLowerCase();
-    return /\b(adulto|incontinencia|ropa interior descartable)\b/.test(lower);
+  function getFilteredProducts() {
+    let list = state.products.slice();
+
+    // Filtro por marca (si hay una seleccionada)
+    if (state.currentBrand) {
+      list = list.filter(p => p.brand === state.currentBrand);
+    }
+
+    // Búsqueda fuzzy (tolerante a errores tipográficos)
+    if (state.searchTerm && state.searchTerm.trim()) {
+      list = P.utils.fuzzyFilter(list, state.searchTerm);
+    }
+
+    // Ordenar por marca, después por nombre dentro de cada marca
+    list.sort((a, b) => {
+      const bc = (a.brand || '').localeCompare(b.brand || '', 'es');
+      return bc !== 0 ? bc : (a.name || '').localeCompare(b.name || '', 'es');
+    });
+
+    return list;
+  }
+
+  function renderBrandChips() {
+    // Contamos cuántos productos hay por marca (sobre el catálogo entero,
+    // pero respetando la búsqueda activa para que el conteo sea coherente)
+    let base = state.products.slice();
+    if (state.searchTerm && state.searchTerm.trim()) {
+      base = P.utils.fuzzyFilter(base, state.searchTerm);
+    }
+
+    const counts = {};
+    base.forEach(p => {
+      const b = p.brand || 'Sin marca';
+      counts[b] = (counts[b] || 0) + 1;
+    });
+    const brands = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+    let html = `<button class="brand-chip ${!state.currentBrand ? 'active' : ''}" data-brand="">Todas <span class="brand-chip-count">${base.length}</span></button>`;
+    brands.forEach(b => {
+      const isActive = state.currentBrand === b;
+      html += `<button class="brand-chip ${isActive ? 'active' : ''}" data-brand="${escapeAttr(b)}">${escapeHtml(b)} <span class="brand-chip-count">${counts[b]}</span></button>`;
+    });
+    $('#brandChips').innerHTML = html;
+    $$('#brandChips .brand-chip').forEach(c => {
+      c.onclick = () => {
+        state.currentBrand = c.dataset.brand || null;
+        renderShop();
+      };
+    });
   }
 
   function renderFooter() {
@@ -1450,109 +1466,7 @@ label.field > span {
   // ============================================================
   // VISTAS
   // ============================================================
-  function showLanding() {
-    $('#view-landing').classList.remove('hidden');
-    $('#view-catalog').classList.add('hidden');
-    state.currentCategory = null;
-    state.currentBrand = null;
-    state.searchTerm = '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function showCatalog(category) {
-    state.currentCategory = category;
-    state.currentBrand = null;
-    state.searchTerm = '';
-    $('#view-landing').classList.add('hidden');
-    $('#view-catalog').classList.remove('hidden');
-    $('#searchInput').value = '';
-
-    const labels = {
-      bebes: { title: 'Pañales y productos para Bebés', sub: 'Pampers, Huggies, Babysec, Estrella y más' },
-      adultos: { title: 'Productos para Adultos', sub: 'Plenitud, Indas, Tena, Hennia y más' },
-      higiene: { title: 'Higiene y Cuidado', sub: 'Toallitas, shampoos, jabones, cremas y aceites' },
-      todos: { title: 'Catálogo completo', sub: 'Todos nuestros productos' }
-    };
-    const lbl = labels[category] || labels.todos;
-    $('#catTitle').textContent = lbl.title;
-    $('#catSubtitle').textContent = lbl.sub;
-
-    renderCatalog();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function getFilteredProducts() {
-    let list = state.products.slice();
-
-    // Categoría
-    if (state.currentCategory === 'bebes') {
-      list = list.filter(p => p.category === 'PAÑALES' && !esAdulto(p));
-    } else if (state.currentCategory === 'adultos') {
-      list = list.filter(p => esAdulto(p));
-    } else if (state.currentCategory === 'higiene') {
-      list = list.filter(p => p.category === 'HIGIENE');
-    }
-    // todos → no filtra
-
-    // Marca
-    if (state.currentBrand) list = list.filter(p => p.brand === state.currentBrand);
-
-    // Búsqueda
-    if (state.searchTerm) {
-      const q = state.searchTerm.toLowerCase();
-      list = list.filter(p =>
-        (p.name || '').toLowerCase().includes(q) ||
-        (p.brand || '').toLowerCase().includes(q) ||
-        (p.size || '').toLowerCase().includes(q));
-    }
-
-    // Sort
-    if (state.sort === 'name') {
-      list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'es'));
-    } else if (state.sort === 'price-asc') {
-      list.sort((a, b) => (a.priceConsumer || 0) - (b.priceConsumer || 0));
-    } else if (state.sort === 'price-desc') {
-      list.sort((a, b) => (b.priceConsumer || 0) - (a.priceConsumer || 0));
-    } else {
-      // brand → ordenar por brand y luego por name
-      list.sort((a, b) => {
-        const bc = (a.brand || '').localeCompare(b.brand || '', 'es');
-        return bc !== 0 ? bc : (a.name || '').localeCompare(b.name || '', 'es');
-      });
-    }
-
-    return list;
-  }
-
-  function renderCatalog() {
-    const list = getFilteredProducts();
-    renderBrandChips();
-    renderProductGrid(list);
-  }
-
-  function renderBrandChips() {
-    // Marcas presentes en la categoría actual (sin filtro de marca)
-    let inCategory = state.products.slice();
-    if (state.currentCategory === 'bebes') inCategory = inCategory.filter(p => p.category === 'PAÑALES' && !esAdulto(p));
-    else if (state.currentCategory === 'adultos') inCategory = inCategory.filter(p => esAdulto(p));
-    else if (state.currentCategory === 'higiene') inCategory = inCategory.filter(p => p.category === 'HIGIENE');
-
-    const counts = {};
-    inCategory.forEach(p => counts[p.brand] = (counts[p.brand] || 0) + 1);
-    const brands = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-
-    let html = `<button class="brand-chip ${!state.currentBrand ? 'active' : ''}" data-brand="">Todas (${inCategory.length})</button>`;
-    brands.forEach(b => {
-      html += `<button class="brand-chip ${state.currentBrand === b ? 'active' : ''}" data-brand="${escapeAttr(b)}">${escapeHtml(b)} (${counts[b]})</button>`;
-    });
-    $('#brandChips').innerHTML = html;
-    $$('#brandChips .brand-chip').forEach(c => {
-      c.onclick = () => {
-        state.currentBrand = c.dataset.brand || null;
-        renderCatalog();
-      };
-    });
-  }
+  // (funciones viejas showLanding/showCatalog/etc eliminadas, se usa renderShop)
 
   function renderProductGrid(list) {
     const grid = $('#productGrid');
@@ -1750,19 +1664,42 @@ label.field > span {
   // EVENTOS
   // ============================================================
   function bindEvents() {
-    // Landing
-    $('#brandLink').onclick = (e) => { e.preventDefault(); showLanding(); };
-    $$('.cat-tile').forEach(t => t.onclick = () => showCatalog(t.dataset.cat));
-    $('#backToLanding').onclick = showLanding;
+    // Logo / link de marca: limpiar búsqueda y filtro de marca
+    $('#brandLink').onclick = (e) => {
+      e.preventDefault();
+      state.currentBrand = null;
+      state.searchTerm = '';
+      $('#searchInput').value = '';
+      $('#searchClear').classList.add('hidden');
+      renderShop();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-    // Catálogo
-    $('#searchInput').oninput = P.utils.debounce(e => {
-      state.searchTerm = e.target.value;
-      renderProductGrid(getFilteredProducts());
-    }, 200);
-    $('#sortSelect').onchange = e => {
-      state.sort = e.target.value;
-      renderProductGrid(getFilteredProducts());
+    // Buscador
+    const searchInput = $('#searchInput');
+    const searchClear = $('#searchClear');
+
+    const onSearchChange = P.utils.debounce(() => {
+      state.searchTerm = searchInput.value;
+      renderShop();
+    }, 180);
+
+    searchInput.oninput = () => {
+      // Mostrar/ocultar el botón X según haya texto
+      if (searchInput.value.length > 0) {
+        searchClear.classList.remove('hidden');
+      } else {
+        searchClear.classList.add('hidden');
+      }
+      onSearchChange();
+    };
+
+    searchClear.onclick = () => {
+      searchInput.value = '';
+      searchClear.classList.add('hidden');
+      state.searchTerm = '';
+      renderShop();
+      searchInput.focus();
     };
 
     // Carrito
@@ -1777,11 +1714,6 @@ label.field > span {
     $('#checkoutOverlay').onclick = e => {
       if (e.target === $('#checkoutOverlay')) closeCheckout();
     };
-
-    // Navegación con back button del browser
-    window.addEventListener('popstate', () => {
-      if (state.currentCategory) showLanding();
-    });
   }
 
   // ============================================================

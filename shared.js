@@ -815,6 +815,95 @@
         .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     },
 
+    /** Normaliza un string para búsqueda: minúsculas, sin acentos, sin caracteres especiales */
+    normalize(s) {
+      if (!s) return '';
+      return String(s).toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    },
+
+    /**
+     * Búsqueda aproximada (fuzzy). Devuelve un score de similitud entre dos strings.
+     * - 1.0 = match exacto
+     * - 0.0 = ninguna coincidencia
+     * Soporta errores tipográficos, omisiones de letras y caracteres invertidos.
+     * Usa Levenshtein normalizado.
+     */
+    fuzzyScore(query, text) {
+      const q = this.normalize(query);
+      const t = this.normalize(text);
+      if (!q || !t) return 0;
+      if (t.includes(q)) return 1.0; // Match exacto como substring → score máximo
+      // Levenshtein entre query y mejor ventana del texto
+      const words = t.split(' ');
+      let bestScore = 0;
+      for (const w of words) {
+        const dist = this._levenshtein(q, w);
+        const maxLen = Math.max(q.length, w.length);
+        const score = maxLen === 0 ? 0 : 1 - (dist / maxLen);
+        if (score > bestScore) bestScore = score;
+      }
+      return bestScore;
+    },
+
+    /** Distancia de Levenshtein entre dos strings (cantidad mínima de ediciones). */
+    _levenshtein(a, b) {
+      if (a === b) return 0;
+      if (!a.length) return b.length;
+      if (!b.length) return a.length;
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
+    },
+
+    /**
+     * Filtra una lista de productos por query con tolerancia a errores.
+     * Threshold por defecto 0.65 (admite ~1 error por palabra de 3-4 letras).
+     * Si el query tiene múltiples palabras, busca que TODAS aparezcan (cada una con su score).
+     */
+    fuzzyFilter(products, query, threshold = 0.65) {
+      const q = this.normalize(query);
+      if (!q) return products;
+      const queryWords = q.split(' ').filter(Boolean);
+      // Para cada producto, computar score combinado de todos sus campos buscables
+      return products.filter(p => {
+        const haystack = this.normalize(
+          (p.name || '') + ' ' + (p.brand || '') + ' ' + (p.size || '')
+        );
+        // Cada palabra del query debe matchear (substring O fuzzy) en el haystack
+        return queryWords.every(qw => {
+          if (haystack.includes(qw)) return true;
+          // No substring → fuzzy contra cada palabra del haystack
+          const hayWords = haystack.split(' ');
+          for (const hw of hayWords) {
+            const maxLen = Math.max(qw.length, hw.length);
+            if (maxLen === 0) continue;
+            const dist = this._levenshtein(qw, hw);
+            const score = 1 - (dist / maxLen);
+            if (score >= threshold) return true;
+          }
+          return false;
+        });
+      });
+    },
+
     /** Debounce simple */
     debounce(fn, ms) {
       let t;
