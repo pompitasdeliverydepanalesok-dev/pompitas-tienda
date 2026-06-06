@@ -1337,7 +1337,7 @@ label.field > span {
   function renderBanner() {
     const c = state.config;
     const banner = $('#bannerDni');
-    const isActive = c.banner_activo === 'TRUE' || c.banner_activo === true;
+    const isActive = c.banner_activo === 'TRUE' || c.banner_activo === true || String(c.banner_activo).toUpperCase() === 'TRUE';
     const today = P.utils.todayDow();
     const days = String(c.banner_dias || '').toLowerCase().split(',').map(s => s.trim());
     const todayActive = days.includes(today);
