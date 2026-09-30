@@ -1639,11 +1639,12 @@ label.field > span {
     msg += `\n*Productos:*\n`;
 
     let total = 0;
-    items.forEach((item, i) => {
+    items.forEach((item) => {
       const sub = item.priceConsumer * item.qty;
       total += sub;
-      msg += `\n${i + 1}. *${item.name}*${item.size ? ' (Talle ' + item.size + ')' : ''}`;
-      msg += `\n   ${item.qty} x ${P.format.money(item.priceConsumer)} = *${P.format.money(sub)}*`;
+      const brandPrefix = item.brand ? item.brand.toUpperCase() + ' ' : '';
+      msg += `\n▪️ ${item.qty} *${brandPrefix}${item.name}*${item.size ? ' (Talle ' + item.size + ')' : ''}`;
+      msg += `\n   (${item.qty}x ${P.format.money(item.priceConsumer)}) *${P.format.money(sub)}*`;
     });
 
     msg += `\n\n━━━━━━━━━━━━━━━`;
