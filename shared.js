@@ -86,7 +86,7 @@
 
   // Talles canónicos en orden de especificidad (más largos primero)
   const SIZE_TOKENS = [
-    'XXXG','XXXL','XXG','XXL','XG','XL','XP','XS','RN','JR','J',
+    'XXXG','XXXL','XXG','XXL','XG','XL','XP','XS','RN','JUNIOR','JR','J',
     'SG','MG','PP','GG',
     'P','M','G','L','S'
   ];
@@ -344,6 +344,18 @@
    *        nombre canónico (sin grupo), talle individual, mismo precio.
    *   4. Si no hay grupo, extrae talle único.
    */
+  /**
+   * Corrige errores de tipeo del proveedor dentro de un grupo de talles,
+   * donde falta la "x" (ej: "Gx64/XG52/XXGx52" -> "Gx64/XGx52/XXGx52").
+   * Solo actúa si el talle+número está pegado a una "/" de otro item del grupo.
+   */
+  function fixMissingX(name) {
+    const tok = '(XXXG|XXXL|XXG|XXL|XG|XL|JUNIOR|RN|G|M|P|L)';
+    return String(name)
+      .replace(new RegExp('(^|[\\s/])' + tok + '(\\d{1,3})(?=/)', 'g'), '$1$2x$3')
+      .replace(new RegExp('(?<=/)' + tok + '(\\d{1,3})(?=[\\s/]|$)', 'g'), '$1x$2');
+  }
+
   function parseProductsFromLines(lines, markups) {
     const products = [];
     let currentBrand = null;
@@ -372,7 +384,7 @@
       const extracted = extractProductFromLine(line);
       if (!extracted) continue;
 
-      const cleanName = cleanProductName(extracted.name);
+      const cleanName = fixMissingX(cleanProductName(extracted.name));
       if (cleanName.length < 6) continue;
       if (isBrandHeader(cleanName)) continue;
 
