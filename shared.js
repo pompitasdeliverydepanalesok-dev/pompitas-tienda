@@ -86,7 +86,7 @@
 
   // Talles canónicos en orden de especificidad (más largos primero)
   const SIZE_TOKENS = [
-    'XXXG','XXXL','XXG','XXL','XG','XL','XP','XS','RN',
+    'XXXG','XXXL','XXG','XXL','XG','XL','XP','XS','RN','JR','J',
     'SG','MG','PP','GG',
     'P','M','G','L','S'
   ];
@@ -297,10 +297,13 @@
     if (!name) return '';
     const upper = String(name).toUpperCase();
     for (const s of SIZE_TOKENS) {
-      // Talle como palabra suelta (rodeada de espacios/bordes/signos)
-      const re = new RegExp('(^|\\s|/)' + s + '($|\\s|/)');
+      // Talle como palabra suelta (rodeada de espacios/bordes/signos),
+      // o pegado a su cantidad con una X (ej: "Px50", "RNx34", "XXXGx92")
+      const re = new RegExp('(^|\\s|/)' + s + '(?=$|\\s|/|X\\d)');
       if (re.test(upper)) return s;
     }
+    // Recién nacido escrito en palabras (ej: "RECIEN NACIDO HASTA 4KG")
+    if (/\bRECI[EÉ]N\s+NACIDO\b/.test(upper)) return 'RN';
     return '';
   }
 
