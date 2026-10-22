@@ -35,6 +35,14 @@
     markupHigiene: 45
   };
 
+  // Adicional (en pesos) que se suma al precio final al consumidor en los
+  // pañales de ADULTOS, según la cantidad de unidades del paquete.
+  // Para cambiar los montos, editar solo estos dos números.
+  const ADULT_PACK_EXTRAS = {
+    chicos: 1000,   // paquetes de 16 y 20 unidades
+    grandes: 1500   // paquetes de 50 unidades
+  };
+
   /* ============================================================
      2. CLASIFICADOR — keywords y marcas
      ============================================================ */
@@ -86,6 +94,7 @@
 
   // Talles canónicos en orden de especificidad (más largos primero)
   const SIZE_TOKENS = [
+    'P-M','G-XG','S-M','L-XL','T1','T2','T3','T4',
     'XXXG','XXXL','XXG','XXL','XG','XL','XP','XS','RN','JUNIOR','JR','J',
     'SG','MG','PP','GG',
     'P','M','G','L','S'
@@ -303,7 +312,8 @@
       if (re.test(upper)) return s;
     }
     // Recién nacido escrito en palabras (ej: "RECIEN NACIDO HASTA 4KG")
-    if (/\bRECI[EÉ]N\s+NACIDO\b/.test(upper)) return 'RN';
+    // (solo pañales: tienen "KG"; una crema o un baño "recién nacido" no es un talle)
+    if (/\bRECI[EÉ]N\s+NACIDO\b/.test(upper) && /KG/.test(upper)) return 'RN';
     return '';
   }
 
@@ -352,8 +362,50 @@
   function fixMissingX(name) {
     const tok = '(XXXG|XXXL|XXG|XXL|XG|XL|JUNIOR|RN|G|M|P|L)';
     return String(name)
+      // Talles combinados (un pack que cubre dos talles): "P - M" -> "P-M"
+      .replace(/(^|[\s/])([PSGL])\s*-\s*(M|XG|XL)(?=[xX]\d|\s|$|\/)/g, '$1$2-$3')
+      // "P-Mx8/G-XG x16": la cantidad del final vale para todo el pack (el 8 es un error del PDF)
+      .replace(/((?:P-M|G-XG|S-M|L-XL)[xX])\d+(\/(?:P-M|G-XG|S-M|L-XL))\s+[xX](\d+)/g, '$1$3$2x$3')
+      // "G-XG x8" -> "G-XGx8" (espacio de más antes de la cantidad)
+      .replace(/(^|[\s/])(P-M|G-XG|S-M|L-XL)\s+[xX](\d)/g, '$1$2x$3')
       .replace(new RegExp('(^|[\\s/])' + tok + '(\\d{1,3})(?=/)', 'g'), '$1$2x$3')
       .replace(new RegExp('(?<=/)' + tok + '(\\d{1,3})(?=[\\s/]|$)', 'g'), '$1x$2');
+  }
+
+  /** Cantidad de unidades del paquete = último "xNN" del nombre (ej: "Gx16", "x20 UNID"). */
+  function packCount(name) {
+    const m = String(name).match(/[xX]\s*(\d+)(?!.*[xX]\s*\d)/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  // Marcas que venden solo productos de adultos (no depende de detectar la sección del PDF)
+  const ADULT_BRANDS = ['Comodín', 'Comodin', 'Nonisec', 'Plenitud', 'Tena', 'Nonino', 'Hennia', 'Indas'];
+
+  /** Adicional en pesos para pañales de adultos de 16/20 y de 50 unidades. */
+  function adultPackExtra(name, brand, section, category) {
+    const isAdult = section === 'ADULTOS' || ADULT_BRANDS.indexOf(brand) !== -1;
+    if (!isAdult || category !== 'PAÑALES') return 0;
+    // No son pañales: apósitos, zaleas, refuerzas, toallas/paños, incontinencia femenina
+    if (/APOSITO|APÓSITO|ZALEA|REFUERZA|TOALLA|PA[ÑN]O|HUMEDAS|INCONTINENCIA|FEMME/i.test(name)) return 0;
+    const n = packCount(name);
+    if (n === 16 || n === 20) return ADULT_PACK_EXTRAS.chicos;
+    if (n === 50) return ADULT_PACK_EXTRAS.grandes;
+    return 0;
+  }
+
+  /**
+   * Un producto que trae dos talles con rango de kilos y un solo precio
+   * (ej: "M 30 -70 KG / G 70 -110 KG x8") se separa en dos productos.
+   * Devuelve [{name,size},{name,size}] o null.
+   */
+  function splitRangeSizes(name) {
+    const m = String(name).match(/^(.*?)\b(P|M|G|XG)\s+(\d+\s*-\s*\d+\s*KG)\s*\/\s*(P|M|G|XG)\s+(\d+\s*-\s*\d+\s*KG)(.*)$/i);
+    if (!m) return null;
+    const pre = m[1], post = m[6];
+    return [
+      { size: m[2].toUpperCase(), name: (pre + m[2].toUpperCase() + ' ' + m[3] + post).replace(/\s+/g, ' ').trim() },
+      { size: m[4].toUpperCase(), name: (pre + m[4].toUpperCase() + ' ' + m[5] + post).replace(/\s+/g, ' ').trim() }
+    ];
   }
 
   function parseProductsFromLines(lines, markups) {
@@ -398,9 +450,32 @@
 
       // Markup
       const markup = category === 'HIGIENE' ? markups.markupHigiene : markups.markupPanales;
-      let priceConsumer = null;
+      let basePrice = null;
       if (extracted.price !== null) {
-        priceConsumer = roundUpTo10(extracted.price * (1 + markup / 100));
+        basePrice = roundUpTo10(extracted.price * (1 + markup / 100));
+      }
+      // Precio final de un producto puntual (suma el adicional de adultos si corresponde)
+      const finalPrice = (prodName) =>
+        basePrice === null ? null : basePrice + adultPackExtra(prodName, brand, currentSection, category);
+
+      // Dos talles con rango de kilos y un solo precio (Tena): separar en dos productos
+      const rangeSplit = splitRangeSizes(cleanName);
+      if (rangeSplit) {
+        for (const item of rangeSplit) {
+          const dedupeKey = item.name + '|' + item.size + '|' + extracted.price;
+          if (seen.has(dedupeKey)) continue;
+          seen.add(dedupeKey);
+          products.push({
+            name: item.name,
+            cost: extracted.price,
+            category, brand,
+            size: item.size,
+            priceConsumer: finalPrice(item.name),
+            imageUrl: '',
+            updatedAt: Date.now()
+          });
+        }
+        continue;
       }
 
       // ¿Tiene talles agrupados?
@@ -433,7 +508,7 @@
             cost: extracted.price,
             category, brand,
             size,
-            priceConsumer,
+            priceConsumer: finalPrice(canonicalName),
             imageUrl: '',
             updatedAt: Date.now()
           });
@@ -451,7 +526,7 @@
           cost: extracted.price,
           category, brand,
           size,
-          priceConsumer,
+          priceConsumer: finalPrice(cleanName),
           imageUrl: '',
           updatedAt: Date.now()
         });
