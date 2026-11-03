@@ -141,7 +141,8 @@
     if (lastDot === -1 && lastComma === -1) {
       value = parseInt(cleaned, 10);
     } else if (lastDot > lastComma) {
-      value = parseFloat(cleaned.replace(/,/g, ''));
+      // "4.500.00": varios puntos -> los primeros son miles, el último es decimal
+      value = parseFloat(cleaned.replace(/,/g, '').replace(/\.(?=.*\.)/g, ''));
     } else if (lastComma > lastDot) {
       value = parseFloat(cleaned.replace(/\./g, '').replace(',', '.'));
     } else {
@@ -182,7 +183,10 @@
     const name = text.slice(0, text.length - priceStr.length).trim();
     if (name.length < 6) return null;
 
-    return { name, price: parsed.value, noStock: false };
+    // "OF." antes del precio = oferta del proveedor
+    const oferta = /^of\b/i.test(priceStr.trim());
+
+    return { name, price: parsed.value, noStock: false, oferta };
   }
 
   function cleanProductName(name) {
@@ -471,6 +475,7 @@
             category, brand,
             size: item.size,
             priceConsumer: finalPrice(item.name),
+            oferta: !!extracted.oferta,
             imageUrl: '',
             updatedAt: Date.now()
           });
@@ -509,6 +514,7 @@
             category, brand,
             size,
             priceConsumer: finalPrice(canonicalName),
+            oferta: !!extracted.oferta,
             imageUrl: '',
             updatedAt: Date.now()
           });
@@ -527,7 +533,8 @@
           category, brand,
           size,
           priceConsumer: finalPrice(cleanName),
-          imageUrl: '',
+          oferta: !!extracted.oferta,
+            imageUrl: '',
           updatedAt: Date.now()
         });
       }
