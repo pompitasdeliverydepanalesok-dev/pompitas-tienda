@@ -995,6 +995,7 @@ body { font-family: var(--font-body); font-weight: 500; }
 .product-name { font-weight: 600; }
 .product-card.is-out .product-img-wrap { opacity: .45; filter: grayscale(1); }
 .product-price.out { display: inline-block; font: 700 11px/1 var(--font-body); letter-spacing: .1em; color: var(--text-soft); padding: 6px 12px; border: 1px solid var(--border-base); border-radius: 999px; }
+.tag-offer { background: var(--c-peach); color: #7A3F1E; font-weight: 700; letter-spacing: .04em; }
 .product-btn-primary[disabled] { opacity: .45; cursor: not-allowed; }
 .product-actions .product-btn-primary { white-space: nowrap; font-size: 13px; padding-left: 10px; padding-right: 10px; }
 .banner-dni { background: linear-gradient(180deg, #26AB8C, #26A560) !important; color: #fff !important; border: 0 !important; padding: 0 !important; }
@@ -1260,6 +1261,9 @@ body { font-family: var(--font-body); font-weight: 500; }
 
   // Marcas de adultos (mantener igual que ADULT_BRANDS de shared.js)
   const ADULT_BRANDS = ['comodin', 'nonisec', 'plenitud', 'tena', 'nonino', 'hennia', 'indas'];
+  function isOferta(p) {
+    return p.oferta === true || String(p.oferta || '').toUpperCase() === 'SI' || String(p.oferta || '').toUpperCase() === 'TRUE';
+  }
   function audienceOf(p) {
     if (p._aud) return p._aud;
     let cat = String(p.category || '').toUpperCase();
@@ -1507,7 +1511,9 @@ body { font-family: var(--font-body); font-weight: 500; }
     });
     // Los productos sin stock van al final
     const inStock = x => Number(x.priceConsumer) > 0;
-    list = list.filter(inStock).concat(list.filter(x => !inStock(x)));
+    list = list.filter(x => inStock(x) && isOferta(x))
+      .concat(list.filter(x => inStock(x) && !isOferta(x)))
+      .concat(list.filter(x => !inStock(x)));
 
     return list;
   }
@@ -1591,6 +1597,7 @@ body { font-family: var(--font-body); font-weight: 500; }
             <div class="product-tags">
               <span class="tag-mini tag-brand">${escapeHtml(p.brand || '')}</span>
               ${sizeTag}
+              ${(!noStock && isOferta(p)) ? '<span class="tag-mini tag-offer">OFERTA</span>' : ''}
             </div>
             <div class="product-name">${escapeHtml(p.name)}</div>
             ${noStock ? '<div class="product-price out">SIN STOCK</div>' : `<div class="product-price">${P.format.money(p.priceConsumer)}</div>`}
